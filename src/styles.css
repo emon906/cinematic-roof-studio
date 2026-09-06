@@ -148,5 +148,82 @@
   body {
     background-color: var(--color-background);
     color: var(--color-foreground);
+    font-family: var(--font-sans);
+    overflow-x: clip;
   }
+
+  html { scroll-behavior: smooth; }
+  ::selection { background: var(--color-primary); color: var(--color-primary-foreground); }
+  a { text-decoration: none; }
 }
+
+@utility site-container { width: min(100% - 2rem, 82rem); margin-inline: auto; }
+@utility section-pad { padding-block: clamp(5rem, 10vw, 9rem); }
+@utility section-title { font-family: var(--font-display); font-size: clamp(2.9rem, 7vw, 6rem); font-weight: 600; line-height: 0.94; text-transform: uppercase; letter-spacing: 0; }
+@utility eyebrow { display: flex; align-items: center; gap: 0.75rem; color: var(--color-primary); font-size: 0.7rem; line-height: 1; font-weight: 700; text-transform: uppercase; letter-spacing: 0.18em; & span { width: 2rem; height: 1px; background: currentColor; } }
+
+@utility site-header {
+  position: fixed; inset: 0 0 auto; z-index: 50; color: var(--color-inverse); transition: background-color 400ms, color 400ms, box-shadow 400ms;
+  &.is-scrolled { background: color-mix(in oklab, var(--color-background) 90%, transparent); color: var(--color-foreground); box-shadow: 0 1px 0 color-mix(in oklab, var(--color-border) 70%, transparent); backdrop-filter: blur(18px); }
+  &.is-scrolled .nav-link { color: color-mix(in oklab, var(--color-foreground) 70%, transparent); }
+  &.is-scrolled .nav-link:hover { color: var(--color-primary); }
+}
+@utility nav-link { position: relative; color: color-mix(in oklab, var(--color-inverse) 76%, transparent); font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; transition: color 200ms; &::after { content: ""; position: absolute; left: 0; right: 100%; bottom: -0.55rem; height: 1px; background: var(--color-primary); transition: right 250ms; } &:hover { color: var(--color-inverse); } &:hover::after { right: 0; } }
+@utility brand-mark { position: relative; display: grid; width: 2.7rem; height: 2.35rem; place-items: center; border: 2px solid var(--color-primary); transform: skew(-10deg); &::before { content: ""; position: absolute; inset: .25rem; border-top: 2px solid currentColor; transform: skew(10deg) rotate(-13deg); } & span { margin-top: .35rem; font-family: var(--font-display); font-size: .9rem; line-height: 1; transform: skew(10deg); } }
+@utility mobile-menu { max-height: 0; overflow: hidden; background: color-mix(in oklab, var(--color-foreground) 96%, transparent); transition: max-height 400ms ease; backdrop-filter: blur(20px); &.is-open { max-height: 34rem; } & a:not(.inline-flex) { display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid color-mix(in oklab, var(--color-inverse) 10%, transparent); padding-block: .9rem; color: var(--color-inverse); font-family: var(--font-display); font-size: 1.35rem; text-transform: uppercase; } & svg { width: 1rem; } }
+
+@utility hero-section { --hero-shift: 0px; position: relative; min-height: 100svh; overflow: hidden; background: var(--color-foreground); }
+@utility hero-image { position: absolute; inset: -5%; width: 110%; height: 110%; object-fit: cover; object-position: 58% center; transform: translateY(var(--hero-shift)) scale(1.05); animation: hero-settle 2s cubic-bezier(.2,.8,.2,1) both; }
+@utility hero-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, oklch(0.1 0.01 45 / 94%) 0%, oklch(0.1 0.01 45 / 67%) 45%, oklch(0.1 0.01 45 / 20%) 75%), linear-gradient(0deg, oklch(0.08 0.01 45 / 90%) 0%, transparent 45%); }
+@utility hero-kicker { display: flex; flex-wrap: wrap; gap: .65rem 1.5rem; color: color-mix(in oklab, var(--color-inverse) 72%, transparent); font-size: .67rem; font-weight: 700; text-transform: uppercase; letter-spacing: .14em; & span:first-child { color: var(--color-primary); } }
+@utility hero-title { margin-top: 1.5rem; color: var(--color-inverse); font-family: var(--font-display); font-size: clamp(4rem, 10vw, 8.8rem); font-weight: 600; line-height: .84; text-transform: uppercase; letter-spacing: 0; & em { color: transparent; font-style: normal; -webkit-text-stroke: 1px color-mix(in oklab, var(--color-inverse) 75%, transparent); } }
+@utility hero-copy { margin-top: 1.7rem; max-width: 36rem; color: color-mix(in oklab, var(--color-inverse) 68%, transparent); font-size: clamp(1rem, 1.8vw, 1.25rem); line-height: 1.65; }
+@utility hero-trust { color: var(--color-inverse); & div { display: flex; min-width: 0; align-items: center; gap: .4rem; font-size: clamp(.56rem, 1vw, .7rem); font-weight: 700; text-transform: uppercase; letter-spacing: .05em; } & svg { width: .85rem; flex-shrink: 0; color: var(--color-primary); } }
+@utility scroll-cue { position: absolute; right: 1rem; bottom: 7.3rem; display: none; width: 2.6rem; height: 2.6rem; place-items: center; border: 1px solid color-mix(in oklab, var(--color-inverse) 25%, transparent); border-radius: 999px; color: var(--color-inverse); animation: cue 2s ease-in-out infinite; }
+
+@utility service-row { display: grid; grid-template-columns: 2.5rem minmax(0,1fr) auto; gap: 1rem; align-items: center; border-bottom: 1px solid var(--color-border); padding-block: 1.5rem; transition: padding 300ms, background 300ms; & h3 { font-family: var(--font-display); font-size: clamp(1.65rem, 3.5vw, 2.8rem); text-transform: uppercase; } & p { display: none; max-width: 27rem; color: var(--color-muted-foreground); font-size: .85rem; line-height: 1.65; } &:hover { padding-inline: 1rem; background: color-mix(in oklab, var(--color-primary) 5%, transparent); } }
+@utility service-number { color: var(--color-primary); font-family: var(--font-display); font-size: .8rem; }
+@utility service-arrow { display: grid; width: 2.5rem; height: 2.5rem; place-items: center; border: 1px solid var(--color-border); border-radius: 999px; transition: background 250ms, color 250ms, transform 250ms; .group:hover & { background: var(--color-primary); color: var(--color-primary-foreground); transform: rotate(-35deg); } }
+
+@utility project-stack { display: grid; gap: 2rem; }
+@utility project-card { position: sticky; top: calc(6rem + var(--index) * .6rem); display: grid; min-height: min(72vh, 43rem); overflow: hidden; border: 1px solid color-mix(in oklab, var(--color-inverse) 12%, transparent); background: oklch(0.2 0.008 45); box-shadow: 0 -18px 50px oklch(0.08 0.01 45 / 35%); }
+@utility project-image { min-height: 20rem; overflow: hidden; & img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s cubic-bezier(.2,.8,.2,1); } .project-card:hover & img { transform: scale(1.035); } }
+@utility project-content { display: flex; flex-direction: column; justify-content: space-between; gap: 3rem; padding: clamp(1.5rem, 4vw, 3.5rem); & h3 { max-width: 32rem; font-family: var(--font-display); font-size: clamp(2.6rem, 6vw, 5.6rem); line-height: .95; text-transform: uppercase; } }
+@utility project-count { color: var(--color-primary); font-family: var(--font-display); font-size: 1.3rem; }
+@utility project-type { border: 1px solid color-mix(in oklab, var(--color-inverse) 18%, transparent); padding: .45rem .7rem; color: color-mix(in oklab, var(--color-inverse) 65%, transparent); font-size: .62rem; text-transform: uppercase; letter-spacing: .1em; }
+
+@utility comparison { --split: 50%; position: relative; aspect-ratio: 1.3; overflow: hidden; background: var(--color-foreground); user-select: none; & > img { width: 100%; height: 100%; object-fit: cover; } & input { position: absolute; inset: 0; z-index: 5; width: 100%; height: 100%; cursor: ew-resize; opacity: 0; } }
+@utility comparison-before { position: absolute; inset: 0 auto 0 0; width: var(--split); overflow: hidden; & img { width: calc(100vw - 2rem); max-width: 82rem; height: 100%; object-fit: cover; object-position: left center; } }
+@utility comparison-line { position: absolute; z-index: 4; inset: 0 auto 0 var(--split); width: 2px; background: var(--color-inverse); transform: translateX(-1px); pointer-events: none; & span { position: absolute; top: 50%; left: 50%; display: flex; width: 3.6rem; height: 3.6rem; align-items: center; justify-content: center; border-radius: 999px; background: var(--color-primary); color: var(--color-primary-foreground); transform: translate(-50%,-50%); } & svg { width: 1rem; } }
+@utility comparison-label { position: absolute; z-index: 3; top: 1rem; padding: .5rem .7rem; background: color-mix(in oklab, var(--color-foreground) 75%, transparent); color: var(--color-inverse); font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; backdrop-filter: blur(10px); &.left { left: 1rem; } &.right { right: 1rem; } }
+@utility transformation-note { display: flex; gap: 1rem; align-items: center; margin: 1.5rem 0 0 auto; max-width: 32rem; border-left: 2px solid var(--color-primary); padding-left: 1.2rem; & svg { flex-shrink: 0; color: var(--color-primary); } & strong, & span { display: block; } & strong { font-family: var(--font-display); font-size: 1.2rem; text-transform: uppercase; } & span { margin-top: .25rem; color: var(--color-muted-foreground); font-size: .78rem; line-height: 1.5; } }
+
+@utility testimonial-stack { display: grid; gap: 1rem; perspective: 1000px; }
+@utility testimonial-card { position: sticky; top: calc(6rem + var(--index) * 1.2rem); min-height: 22rem; padding: clamp(1.7rem, 5vw, 4rem); border: 1px solid var(--color-border); background: var(--color-background); box-shadow: 0 -10px 35px oklch(0.2 0.01 45 / 8%); & blockquote { max-width: 59rem; font-family: var(--font-display); font-size: clamp(1.8rem, 4.5vw, 3.8rem); line-height: 1.12; text-transform: uppercase; } & footer { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; border-top: 1px solid var(--color-border); padding-top: 1rem; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; } & footer span:last-child { color: var(--color-muted-foreground); } }
+@utility quote-mark { margin-bottom: 2rem; width: 2rem; height: 2rem; color: var(--color-primary); fill: currentColor; }
+
+@utility contact-section { padding-block: clamp(5rem, 10vw, 9rem); background: radial-gradient(circle at 15% 20%, color-mix(in oklab, var(--color-primary) 15%, transparent), transparent 30%), var(--color-foreground); color: var(--color-inverse); }
+@utility contact-details { display: grid; gap: 1.5rem; margin-top: 3rem; & a, & > div { display: flex; gap: 1rem; align-items: flex-start; color: var(--color-inverse); font-size: .9rem; line-height: 1.6; } & svg { margin-top: .15rem; flex-shrink: 0; color: var(--color-primary); } & small { display: block; margin-bottom: .25rem; color: color-mix(in oklab, var(--color-inverse) 43%, transparent); font-size: .62rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; } }
+@utility quote-form { padding: clamp(1.4rem, 4vw, 3.25rem); border: 1px solid color-mix(in oklab, var(--color-inverse) 12%, transparent); background: color-mix(in oklab, var(--color-inverse) 5%, transparent); backdrop-filter: blur(14px); & label { color: color-mix(in oklab, var(--color-inverse) 65%, transparent); font-size: .66rem; font-weight: 700; text-transform: uppercase; letter-spacing: .09em; } & input, & textarea, & select { margin-top: .6rem; width: 100%; border: 0; border-bottom: 1px solid color-mix(in oklab, var(--color-inverse) 20%, transparent); border-radius: 0; background: transparent; color: var(--color-inverse); box-shadow: none; outline: none; } & input { height: 3rem; padding-inline: 0; } & textarea { padding: .8rem 0; resize: vertical; } & select { height: 3rem; } & option { color: var(--color-foreground); } & input:focus, & textarea:focus, & select:focus { border-color: var(--color-primary); } }
+@utility form-success { display: flex; align-items: center; gap: .5rem; margin-top: 1.5rem; color: var(--color-inverse); font-size: .8rem; & svg { width: 1rem; color: var(--color-primary); } }
+@utility site-footer { background: oklch(0.115 0.008 45); color: var(--color-inverse); & .site-container { padding-top: 4rem; } & h3 { margin-bottom: 1rem; color: color-mix(in oklab, var(--color-inverse) 40%, transparent); font-size: .62rem; text-transform: uppercase; letter-spacing: .12em; } & nav { display: grid; gap: .5rem; } & nav a, & address, & div > a { color: color-mix(in oklab, var(--color-inverse) 68%, transparent); font-size: .78rem; line-height: 1.8; font-style: normal; transition: color 200ms; } & a:hover { color: var(--color-primary); } }
+
+@utility reveal-up { animation: reveal-up .9s cubic-bezier(.2,.8,.2,1) both; }
+@utility delay-1 { animation-delay: 120ms; }
+@utility delay-2 { animation-delay: 240ms; }
+@utility delay-3 { animation-delay: 360ms; }
+
+@keyframes reveal-up { from { opacity: 0; transform: translateY(2rem); } to { opacity: 1; transform: translateY(0); } }
+@keyframes hero-settle { from { opacity: .6; transform: translateY(var(--hero-shift)) scale(1.12); } to { opacity: 1; transform: translateY(var(--hero-shift)) scale(1.05); } }
+@keyframes cue { 50% { transform: translateY(.35rem); } }
+
+@media (min-width: 48rem) {
+  .site-container { width: min(100% - 4rem, 82rem); }
+  .service-row { grid-template-columns: 3rem minmax(15rem,.75fr) minmax(18rem,1fr) auto; padding-block: 1.8rem; }
+  .service-row p { display: block; }
+  .project-card { grid-template-columns: 1.25fr .75fr; }
+  .comparison { aspect-ratio: 1.9; }
+  .comparison-before img { width: calc(100vw - 4rem); }
+}
+@media (min-width: 64rem) { .scroll-cue { display: grid; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } .hero-image { transform: none; } }
